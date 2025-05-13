@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: llm-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+    nginx.ingress.kubernetes.io/proxy-request-buffering: "off"  # optional, for request side too
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - llm.rutu-sh.com
+      secretName: llm-tls-secret
+  rules:
+  - host: llm.rutu-sh.com
+    http:
+      paths: 
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: llm-svc
+            port:
+              number: 11434

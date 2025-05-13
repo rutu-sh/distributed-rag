@@ -1,0 +1,81 @@
+
+sudo mkdir -p /mnt/data/langfuse/pg
+sudo chown -R 1001:1001 /mnt/data/langfuse/pg
+
+sudo mkdir -p /mnt/data/langfuse/ch
+sudo chown -R 1001:1001 /mnt/data/langfuse/ch
+
+sudo mkdir -p /mnt/data/langfuse/mn/data
+sudo chown -R 1001:1001 /mnt/data/langfuse/mn/data
+
+sudo mkdir -p /mnt/data/langfuse/pg
+sudo chown -R 1001:1001 /mnt/data/langfuse/pg
+
+sudo mkdir -p /mnt/data/milvus/etcd
+sudo chown -R 1001:1001 /mnt/data/milvus/etcd
+
+sudo mkdir -p /mnt/data/milvus/milvus
+sudo chown -R 1001:1001 /mnt/data/milvus/milvus
+
+sudo mkdir -p /mnt/data/langfuse/ch/data
+sudo chown -R 1001:1001 /mnt/data/langfuse/ch/data
+
+sudo mkdir -p /mnt/data/docproc
+sudo chown -R 1001:1001 /mnt/data/docproc
+
+sudo mkdir -p /mnt/data/langfuse/ch/logs
+sudo chown -R 1001:1001 /mnt/data/langfuse/ch/logs
+
+sudo mkdir -p /mnt/data/ollama
+sudo chown -R 1001:1001 /mnt/data/ollama
+
+sudo mkdir -p /mnt/data/emb/ollama
+sudo chown -R 1001:1001 /mnt/data/emb/ollama
+
+sudo mkdir -p /mnt/data/emb/ollama1
+sudo chown -R 1001:1001 /mnt/data/emb/ollama1
+
+sudo mkdir -p  /mnt/data/frontend/pg
+sudo chown -R 1001:1001 /mnt/data/frontend/pg
+
+sudo mkdir -p /mnt/data/object-storage
+sudo chown -R 1001:1001 /mnt/data/object-storage 
+
+sudo mkdir -p /mnt/data/redis
+sudo chown -R 1001:1001 /mnt/data/redis
+
+
+---
+
+
+sudo mkdir -p /mnt/data/milvus-lite
+sudo chown -R 1001:1001 /mnt/data/milvus-lite
+
+sudo mkdir -p /mnt/data/redis/redis-0-data
+sudo chown -R 1001:1001 /mnt/data/redis/redis-0-data
+
+
+sudo mkdir -p /mnt/data/redis/redis-1-data
+sudo chown -R 1001:1001 /mnt/data/redis/redis-1-data
+
+
+sudo mkdir -p /mnt/data/redis/redis-2-data
+sudo chown -R 1001:1001 /mnt/data/redis/redis-2-data
+
+
+sudo mkdir -p /mnt/data/redis/redis-3-data
+sudo chown -R 1001:1001 /mnt/data/redis/redis-3-data
+
+
+sudo mkdir -p /mnt/data/redis/redis-4-data
+sudo chown -R 1001:1001 /mnt/data/redis/redis-4-data
+
+
+sudo mkdir -p /mnt/data/redis/redis-5-data
+sudo chown -R 1001:1001 /mnt/data/redis/redis-5-data
+
+sudo mkdir -p /mnt/data/milvus/minio
+sudo chown -R 1001:1001 /mnt/data/milvus/minio
+
+sudo mkdir -p /mnt/data/keycloak
+sudo chown -R 1001:1001 /mnt/data/keycloak

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mv-mv-sa
+spec:
+  ports:
+    - protocol: TCP
+      port: 19530
+      targetPort: 19530
+      name: hc
+    - protocol: TCP
+      port: 9091
+      targetPort: 9091
+      name: wb
+  selector:
+    app: mv-mv-sa

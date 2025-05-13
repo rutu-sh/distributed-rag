@@ -1,0 +1,18 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: chatbot-frontend-common
+data:
+  DB_HOST: chatbot-pg-db
+  DB_PORT: "5432"
+  DB_NAME: chatbot
+  NEXTAUTH_URL: https://rag.rutu-sh.com/
+  OLLAMA_HOST: http://langchain.langchain.svc.cluster.local:8000
+  DEFAULT_MODEL: "qwen2.5:0.5b"
+  DOCUMENT_PROCESSOR_URL: http://docproc.langchain.svc.cluster.local:7070
+  OLLAMA_STREAM: "true"
+  MINIO_BUCKET_NAME: "doc-proc"
+  MINIO_PREFIX: "//files/"
+  MINIO_ENDPOINT: minio-api.rutu-sh.com
+  REDIS_URL: "redis://:reiiiidisspassssssss@redis.redis.svc.cluster.local:6379"
+  REDIS_QUEUE_NAME: doc_proc_queue

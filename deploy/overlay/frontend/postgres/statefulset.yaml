@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: chatbot-pg-db
+spec:
+  serviceName: "chatbot-pg-db"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chatbot-pg-db
+  template:
+    metadata:
+      labels:
+        app: chatbot-pg-db
+    spec:
+      containers:
+        - name: postgresql
+          image: bitnami/postgresql:latest
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: chatbot-pg-db
+                  key: db-user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: chatbot-pg-db
+                  key: db-password
+            - name: POSTGRES_DB
+              value: "postgres"
+          resources:
+            requests:
+              cpu: "1"
+              memory: 1Gi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: chatbot-pg-db-data
+              mountPath: /bitnami/postgresql/data
+      volumes:
+        - name: chatbot-pg-db-data
+          persistentVolumeClaim:
+            claimName: chatbot-pg-pvc

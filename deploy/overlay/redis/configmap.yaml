@@ -1,0 +1,7 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: redis
+data:
+  REDIS_NODES: redis-0 redis-1 redis-2 redis-3 redis-4 redis-5
+  REDIS_CLUSTER_REPLICAS: "1"

@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: lf-ch-db
+spec:
+  serviceName: lf-ch-db
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lf-ch-db
+  template:
+    metadata:
+      labels:
+        app: lf-ch-db
+    spec:
+      containers:
+        - name: clickhouse
+          image: clickhouse/clickhouse-server
+          env:
+            - name: CLICKHOUSE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: lf-ch-db
+                  key: db-user
+            - name: CLICKHOUSE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: lf-ch-db
+                  key: db-password
+            - name: CLICKHOUSE_DB
+              value: "clickhouse"
+          resources:
+            requests:
+              cpu: "1"
+              memory: 5Gi
+            limits:
+              cpu: "1"
+              memory: 5Gi
+          ports:
+            - containerPort: 8123
+            - containerPort: 9000
+          volumeMounts:
+            - name: lf-ch-db-data
+              mountPath: /var/lib/clickhouse
+            - name: lf-ch-db-logs
+              mountPath: /var/lib/clickhouse-server
+      volumes:
+        - name: lf-ch-db-data
+          persistentVolumeClaim:
+            claimName: lf-ch-data-pvc
+        - name: lf-ch-db-logs
+          persistentVolumeClaim:
+            claimName: lf-ch-logs-pvc

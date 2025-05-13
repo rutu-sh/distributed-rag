@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: langchain
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: langchain
+  template:
+    metadata:
+      labels:
+        app: langchain
+    spec:
+      containers:
+      - name: langchain
+        image: rutush10/langchain:v0.0.47
+        env:
+          - name: ZILLIZ_TOKEN
+            valueFrom:
+              secretKeyRef:
+                key: zilliz-token
+                name: langchain
+          - name: ZILLIZ_URL
+            value: https://in03-1453065f762af81.serverless.gcp-us-west1.cloud.zilliz.com
+          - name: LANGFUSE_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                key: lf-secret-key
+                name: langchain
+          - name: LANGFUSE_PUBLIC_KEY
+            valueFrom:
+              secretKeyRef:
+                key: lf-public-key
+                name: langchain
+        ports:
+        - containerPort: 8000
+        envFrom:
+          - configMapRef: 
+              name: langchain  
+        resources:
+          requests:
+            cpu: "2"
+            memory: 2Gi
+          limits:
+            cpu: "2"
+            memory: 2Gi

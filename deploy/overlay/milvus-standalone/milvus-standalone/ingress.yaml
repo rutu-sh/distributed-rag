@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mv-mv-ingress
+  # annotations:
+  #   nginx.ingress.kubernetes.io/rewrite-target: /
+    # nginx.ingress.kubernetes.io/auth-url: "https://auth.rutu-sh.com/oauth2/auth"
+    # nginx.ingress.kubernetes.io/auth-signin: "https://auth.rutu-sh.com/oauth2/start?rd=https://rag.rutu-sh.com$request_uri"
+    # nginx.ingress.kubernetes.io/auth-response-headers: "X-Auth-Request-User, X-Auth-Request-Email, X-Auth-Request-Preferred-Username"
+    # nginx.ingress.kubernetes.io/proxy-buffer-size: "32k"
+    # nginx.ingress.kubernetes.io/proxy-buffers-number: "8"
+    # nginx.ingress.kubernetes.io/large-client-header-buffers: "4 32k"
+    # nginx.ingress.kubernetes.io/proxy-busy-buffers-size: "64k"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - milvus.rutu-sh.com
+      secretName: mv-tls-secret
+  rules:
+  - host: milvus.rutu-sh.com
+    http:
+      paths: 
+      - pathType: Prefix
+        path: "/webui"
+        backend:
+          service:
+            name: mv-mv-sa
+            port:
+              number: 9091

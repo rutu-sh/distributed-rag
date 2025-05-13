@@ -1,0 +1,4 @@
+mc admin accesskey create data/ --access-key qqwweeeeertyop --secret-key qqwweeeeertyop
+
+
+mc alias set myminio http://localhost:9000 

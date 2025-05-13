@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nginx-ingress
+
+--- 
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: langfuse 
+
+--- 
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: langchain
+
+--- 
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: milvus
+
+--- 
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: chatbot-frontend
+
+--- 
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: auth
+
+--- 
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: llm
+
+--- 
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: emb
+
+--- 
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: object-storage
+
+--- 
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: redis

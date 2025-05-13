@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: chatbot-frontend
+secretGenerator:
+  - name: nextauth-secret
+    files:
+      - nextauth-secret=nextauth-cookie.txt
+generatorOptions:
+  disableNameSuffixHash: true
+resources:
+  - secret.yaml

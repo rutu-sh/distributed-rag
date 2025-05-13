@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: lf-mn-db
+spec:
+  serviceName: lf-mn-db
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lf-mn-db
+  template:
+    metadata:
+      labels:
+        app: lf-mn-db
+    spec:
+      containers:
+        - name: minio
+          image: minio/minio
+          command: ["sh", "-c", "mkdir -p /data/langfuse && minio server --address 0.0.0.0:9000 --console-address 0.0.0.0:9001 /data"]
+          env:
+            - name: MINIO_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: lf-mn-db
+                  key: db-user
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: lf-mn-db
+                  key: db-password
+          resources:
+            requests:
+              cpu: "2"
+              memory: 4Gi
+            limits:
+              cpu: "2"
+              memory: 4Gi
+          ports:
+            - containerPort: 9000
+            - containerPort: 9001
+          volumeMounts:
+            - name: lf-mn-data
+              mountPath: /data
+      volumes:
+        - name: lf-mn-data
+          persistentVolumeClaim:
+            claimName: lf-mn-pvc

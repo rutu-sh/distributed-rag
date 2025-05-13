@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: object-storage-ingress
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - minio.rutu-sh.com
+        - minio-api.rutu-sh.com
+      secretName: minio-tls-secret
+  rules:
+  - host: minio.rutu-sh.com
+    http:
+      paths: 
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: ob-mn-db
+            port:
+              number: 9001
+  - host: minio-api.rutu-sh.com
+    http:
+      paths: 
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: ob-mn-db
+            port:
+              number: 9000

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mv-mv-sa
+spec:
+  serviceName: mv-mv-sa
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mv-mv-sa
+  template:
+    metadata:
+      labels:
+        app: mv-mv-sa
+    spec:
+      containers:
+        - name: milvus
+          image: milvusdb/milvus:v2.5.10
+          command: ["milvus", "run", "standalone"]
+          env:
+            - name: ETCD_ENDPOINTS
+              value: mv-et-db:2379
+            - name: MINIO_ADDRESS
+              value: mv-mn-db:9000
+          resources:
+            requests:
+              cpu: "2"
+              memory: 4Gi
+            limits:
+              cpu: "2"
+              memory: 4Gi
+          ports:
+            - containerPort: 19530
+            - containerPort: 9091
+          volumeMounts:
+            - name: mv-mv-data
+              mountPath: /var/lib/milvus
+          securityContext:
+            seccompProfile:
+              type: Unconfined
+      volumes:
+        - name: mv-mv-data
+          persistentVolumeClaim:
+            claimName: mv-mv-sa-pvc

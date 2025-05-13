@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: docproc
+spec:
+  serviceName: docproc
+  replicas: 3
+  selector:
+    matchLabels:
+      app: docproc
+  template:
+    metadata:
+      labels:
+        app: docproc
+    spec:
+      # nodeSelector:
+      #   kubernetes.io/hostname: master
+      containers:
+      - name: docproc
+        image: rutush10/document-processor:v0.0.20
+        ports:
+        - containerPort: 7070
+        envFrom:
+          - configMapRef: 
+              name: docproc
+        env:
+          - name: ZILLIZ_TOKEN
+            valueFrom:
+              secretKeyRef:
+                key: zilliz-token
+                name: docproc
+          - name: ZILLIZ_URL
+            value: https://in03-1453065f762af81.serverless.gcp-us-west1.cloud.zilliz.com
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: MINIO_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                key: mn-access-key
+                name: docproc
+          - name: MINIO_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                key: mn-secret-key
+                name: docproc
+          - name: MINIO_BUCKET_NAME
+            valueFrom:
+              secretKeyRef:
+                key: mn-bucket-name
+                name: docproc
+        resources:
+          requests:
+            cpu: "2"
+            memory: 4Gi
+          limits:
+            cpu: "2"
+            memory: 4Gi
+        volumeMounts:
+          - name: docproc-data
+            mountPath: /task
+  volumeClaimTemplates:
+  - metadata:
+      name: docproc-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local
+      resources:
+        requests:
+          storage: 1Gi
+
+
+# db_1453065f762af81
+# Tv7}J,Zt?.XPQFs;
+
+
+          

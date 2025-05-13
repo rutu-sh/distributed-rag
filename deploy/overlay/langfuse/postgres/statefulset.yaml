@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: lf-pg-db
+spec:
+  serviceName: "lf-pg-db"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lf-pg-db
+  template:
+    metadata:
+      labels:
+        app: lf-pg-db
+    spec:
+      containers:
+        - name: postgresql
+          image: bitnami/postgresql:latest
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: lf-pg-db
+                  key: db-user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: lf-pg-db
+                  key: db-password
+            - name: POSTGRES_DB
+              value: "postgres"
+          resources:
+            requests:
+              cpu: "1"
+              memory: 1Gi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: lf-pg-db-data
+              mountPath: /bitnami/postgresql/data
+      volumes:
+        - name: lf-pg-db-data
+          persistentVolumeClaim:
+            claimName: lf-pg-pvc

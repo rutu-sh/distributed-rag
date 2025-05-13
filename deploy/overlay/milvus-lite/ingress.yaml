@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: milvus-ingress
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - milvus.rutu-sh.com
+      secretName: milvus-tls-secret
+  rules:
+  - host: milvus.rutu-sh.com
+    http:
+      paths: 
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: milvus-lite-db
+            port:
+              number: 8080

@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lf-wk
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lf-wk
+  template:
+    metadata:
+      labels:
+        app: lf-wk
+    spec:
+      containers:
+      - name: langfuse-worker
+        image: langfuse/langfuse-worker:3
+        ports:
+        - containerPort: 3030
+        resources:
+          requests:
+            cpu: "2"
+            memory: "2Gi"
+          limits:
+            cpu: "2"
+            memory: "2Gi"
+        envFrom:
+          - configMapRef:
+              name: lf-common
+        env:
+          - name: CLICKHOUSE_USER
+            valueFrom:
+              secretKeyRef:
+                name: lf-ch-db
+                key: db-user
+          - name: CLICKHOUSE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: lf-ch-db
+                key: db-password
+          - name: LANGFUSE_S3_EVENT_UPLOAD_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: lf-mn-db
+                key: db-password
+          - name: LANGFUSE_S3_MEDIA_UPLOAD_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: lf-mn-db
+                key: db-password
+          - name: LANGFUSE_S3_BATCH_EXPORT_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: lf-mn-db
+                key: db-password
+          - name: DATABASE_HOST
+            value: lf-pg-db
+          - name: DATABASE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: lf-pg-db
+                key: db-user
+          - name: DATABASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: lf-pg-db
+                key: db-password
+          - name: REDIS_AUTH
+            valueFrom:
+              secretKeyRef:
+                name: lf-rd-db
+                key: db-password
+          - name: DATABASE_NAME
+            value: postgres
+          - name: SALT
+            valueFrom:
+              secretKeyRef:
+                name: lf-encryption
+                key: salt    
+          - name: ENCRYPTION_KEY
+            valueFrom:
+              secretKeyRef:
+                name: lf-encryption
+                key: encryption-key

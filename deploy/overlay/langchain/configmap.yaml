@@ -1,0 +1,12 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: langchain
+data:
+  SERVICE_NAME: "langchain"
+  OLLAMA_BASE_URL: "http://llm-svc.llm.svc.cluster.local:11434"
+  MILVUS_URL: "http://milvus-lite-db.milvus.svc.cluster.local:8080"
+  EMBED_URL: "http://emb-svc.emb.svc.cluster.local:11434/api/embed"
+  EMBED_MODEL: "all-minilm:33m"
+  LANGFUSE_HOST: "https://langfuse.rutu-sh.com"
+  K_CLOSEST: "10"

@@ -1,0 +1,11 @@
+*.crt
+*.key
+.venv
+oauth.cfg
+realm-secrets
+certs
+local
+salt.txt
+encryption_key.txt
+nextauth-cookie.txt
+__pycache__

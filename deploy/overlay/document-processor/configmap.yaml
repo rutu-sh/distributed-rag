@@ -1,0 +1,11 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: docproc
+data:
+  MILVUS_ENDPOINT: "http://milvus-lite-db.milvus.svc.cluster.local:8080/vectors/add"
+  EMBED_URL: "http://emb-svc.emb.svc.cluster.local:11434"
+  EMBED_MODEL: "all-minilm:33m"
+  REDIS_HOST: redis.redis.svc.cluster.local
+  REDIS_PORT: "6379"
+  REDIS_PASSWORD: reiiiidisspassssssss

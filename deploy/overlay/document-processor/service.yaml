@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: docproc
+spec:
+  type: ClusterIP
+  selector:
+    app: docproc
+  ports:
+    - protocol: TCP
+      port: 7070
+      targetPort: 7070

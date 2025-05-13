@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: emb-ingress
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - emb.rutu-sh.com
+      secretName: emb-tls-secret
+  rules:
+  - host: emb.rutu-sh.com
+    http:
+      paths: 
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: emb-svc
+            port:
+              number: 11434

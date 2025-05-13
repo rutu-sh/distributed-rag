@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: emb-ol
+spec:
+  serviceName: emb-ol
+  replicas: 1
+  selector:
+    matchLabels:
+      app: emb
+  template:
+    metadata:
+      labels:
+        app: emb
+    spec:
+      containers:
+      - name: emb
+        image: ollama/ollama
+        command: 
+        - "/bin/bash"
+        - "-c"
+        - "ollama serve & sleep 5 && ollama pull all-minilm:33m && wait"
+        securityContext:
+          privileged: true
+        ports:
+        - containerPort: 11434
+        resources:
+          requests:
+            cpu: "10"
+            memory: "20Gi"        
+          limits:
+            cpu: "10"
+            memory: "20Gi"
+        volumeMounts:
+          - name: emb-data
+            mountPath: /root/.ollama
+      volumes:
+        - name: emb-data
+          persistentVolumeClaim:
+            claimName: emb-ol-pvc
+
+---
+
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: emb-ol-1
+spec:
+  serviceName: emb-ol-1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: emb
+  template:
+    metadata:
+      labels:
+        app: emb
+    spec:
+      containers:
+      - name: emb
+        image: ollama/ollama
+        command: 
+        - "/bin/bash"
+        - "-c"
+        - "ollama serve & sleep 5 && ollama pull all-minilm:33m && wait"
+        securityContext:
+          privileged: true
+        ports:
+        - containerPort: 11434
+        resources:
+          requests:
+            cpu: "10"
+            memory: "20Gi"        
+          limits:
+            cpu: "10"
+            memory: "20Gi"
+        volumeMounts:
+          - name: emb-data
+            mountPath: /root/.ollama
+      volumes:
+        - name: emb-data
+          persistentVolumeClaim:
+            claimName: emb-ol-pvc-1
+

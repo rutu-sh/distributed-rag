@@ -1,0 +1,288 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-0
+spec:
+  serviceName: redis-0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-0
+  template:
+    metadata:
+      labels:
+        app: redis-0
+        category: redis
+    spec:
+      containers:
+        - name: redis
+          image: docker.io/bitnami/redis-cluster:7.4
+          envFrom:
+          - configMapRef: 
+              name: redis
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis
+                  key: redis-password
+          resources:
+            requests:
+              cpu: "2"
+              memory: 8Gi
+            limits:
+              cpu: "2"
+              memory: 8Gi
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: redis-data
+              mountPath: /bitnami/redis/data
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: redis-pvc-0
+
+--- 
+
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-1
+spec:
+  serviceName: redis-1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-1
+  template:
+    metadata:
+      labels:
+        app: redis-1
+        category: redis
+    spec:
+      containers:
+        - name: redis
+          image: docker.io/bitnami/redis-cluster:7.4
+          envFrom:
+          - configMapRef: 
+              name: redis
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis
+                  key: redis-password
+          resources:
+            requests:
+              cpu: "2"
+              memory: 8Gi
+            limits:
+              cpu: "2"
+              memory: 8Gi
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: redis-data
+              mountPath: /bitnami/redis/data
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: redis-pvc-1
+
+--- 
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-2
+spec:
+  serviceName: redis-2
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-2
+  template:
+    metadata:
+      labels:
+        app: redis-2
+        category: redis
+    spec:
+      containers:
+        - name: redis
+          image: docker.io/bitnami/redis-cluster:7.4
+          envFrom:
+          - configMapRef: 
+              name: redis
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis
+                  key: redis-password
+          resources:
+            requests:
+              cpu: "2"
+              memory: 8Gi
+            limits:
+              cpu: "2"
+              memory: 8Gi
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: redis-data
+              mountPath: /bitnami/redis/data
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: redis-pvc-2
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-3
+spec:
+  serviceName: redis-3
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-3
+  template:
+    metadata:
+      labels:
+        app: redis-3
+        category: redis
+    spec:
+      containers:
+        - name: redis
+          image: docker.io/bitnami/redis-cluster:7.4
+          envFrom:
+          - configMapRef: 
+              name: redis
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis
+                  key: redis-password
+          resources:
+            requests:
+              cpu: "2"
+              memory: 8Gi
+            limits:
+              cpu: "2"
+              memory: 8Gi
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: redis-data
+              mountPath: /bitnami/redis/data
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: redis-pvc-3
+
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-4
+spec:
+  serviceName: redis-4
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-4
+  template:
+    metadata:
+      labels:
+        app: redis-4
+        category: redis
+    spec:
+      containers:
+        - name: redis
+          image: docker.io/bitnami/redis-cluster:7.4
+          envFrom:
+          - configMapRef: 
+              name: redis
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis
+                  key: redis-password
+          resources:
+            requests:
+              cpu: "2"
+              memory: 8Gi
+            limits:
+              cpu: "2"
+              memory: 8Gi
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: redis-data
+              mountPath: /bitnami/redis/data
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: redis-pvc-4
+
+--- 
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-5
+spec:
+  serviceName: redis-5
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-5
+  template:
+    metadata:
+      labels:
+        app: redis-5
+        category: redis
+    spec:
+      containers:
+        - name: redis
+          image: docker.io/bitnami/redis-cluster:7.4
+          envFrom:
+          - configMapRef: 
+              name: redis
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis
+                  key: redis-password
+            - name: REDISCLI_AUTH
+              valueFrom:
+                secretKeyRef:
+                  name: redis
+                  key: redis-password
+            - name: REDIS_CLUSTER_REPLICAS
+              value: "1"
+            - name: REDIS_CLUSTER_CREATOR
+              value: "yes"
+          resources:
+            requests:
+              cpu: "2"
+              memory: 8Gi
+            limits:
+              cpu: "2"
+              memory: 8Gi
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: redis-data
+              mountPath: /bitnami/redis/data
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: redis-pvc-5

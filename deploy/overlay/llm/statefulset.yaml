@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: llm-ol
+spec:
+  serviceName: llm-ol
+  replicas: 1
+  selector:
+    matchLabels:
+      app: llm
+  template:
+    metadata:
+      labels:
+        app: llm
+    spec:
+      containers:
+      - name: llm
+        image: ollama/ollama
+        command: 
+        - "/bin/bash"
+        - "-c"
+        - "ollama serve & sleep 5 && ollama pull qwen2.5:0.5b && wait"
+        securityContext:
+          privileged: true
+        ports:
+        - containerPort: 11434
+        resources:
+          requests:
+            cpu: "10"
+            memory: "20Gi"        
+          limits:
+            cpu: "10"
+            memory: "20Gi"
+        volumeMounts:
+          - name: llm-data
+            mountPath: /root/.ollama
+      volumes:
+        - name: llm-data
+          persistentVolumeClaim:
+            claimName: llm-ol-pvc

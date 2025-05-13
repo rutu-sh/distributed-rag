@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ob-mn-db
+spec:
+  serviceName: ob-mn-db
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ob-mn-db
+  template:
+    metadata:
+      labels:
+        app: ob-mn-db
+    spec:
+      containers:
+        - name: minio
+          image: minio/minio
+          command: ["sh", "-c", "mkdir -p /data/doc-proc && minio server --address 0.0.0.0:9000 --console-address 0.0.0.0:9001 /data"]
+          env:
+            - name: MINIO_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ob-mn-db
+                  key: db-user
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ob-mn-db
+                  key: db-password
+          resources:
+            requests:
+              cpu: "2"
+              memory: 4Gi
+            limits:
+              cpu: "2"
+              memory: 4Gi
+          ports:
+            - containerPort: 9000
+            - containerPort: 9001
+          volumeMounts:
+            - name: ob-mn-data
+              mountPath: /data
+      volumes:
+        - name: ob-mn-data
+          persistentVolumeClaim:
+            claimName: ob-mn-pvc

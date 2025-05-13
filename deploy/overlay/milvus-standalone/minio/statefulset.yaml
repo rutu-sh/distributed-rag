@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mv-mn-db
+spec:
+  serviceName: mv-mn-db
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mv-mn-db
+  template:
+    metadata:
+      labels:
+        app: mv-mn-db
+    spec:
+      containers:
+        - name: minio
+          image: minio/minio
+          command: ["sh", "-c", "mkdir -p /minio_data && minio server --address 0.0.0.0:9000 --console-address 0.0.0.0:9001 /minio_data"]
+          env:
+            - name: MINIO_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mv-mn-db
+                  key: db-user
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mv-mn-db
+                  key: db-password
+          resources:
+            requests:
+              cpu: "4"
+              memory: 4Gi
+            limits:
+              cpu: "4"
+              memory: 4Gi
+          ports:
+            - containerPort: 9000
+            - containerPort: 9001
+          volumeMounts:
+            - name: mv-mn-data
+              mountPath: /data
+      volumes:
+        - name: mv-mn-data
+          persistentVolumeClaim:
+            claimName: mv-mn-pvc

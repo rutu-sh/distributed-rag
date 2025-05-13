@@ -1,0 +1,54 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: lf-common
+data:
+  # DATABASE_URL: postgresql://postgres:postgres@lf-pg-db:5432/postgres
+  TELEMETRY_ENABLED: "true"
+  LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES: "false"
+  CLICKHOUSE_MIGRATION_URL: clickhouse://lf-ch-db:9000
+  CLICKHOUSE_URL: http://lf-ch-db:8123
+  CLICKHOUSE_CLUSTER_ENABLED: "false"
+  LANGFUSE_S3_EVENT_UPLOAD_ACCESS_KEY_ID: qqwweeeeertyop 
+  LANGFUSE_S3_MEDIA_UPLOAD_ACCESS_KEY_ID: qqwweeeeertyop
+  LANGFUSE_S3_BATCH_EXPORT_ACCESS_KEY_ID: qqwweeeeertyop
+  LANGFUSE_S3_EVENT_UPLOAD_BUCKET: "langfuse"
+  LANGFUSE_S3_EVENT_UPLOAD_REGION: "auto"
+  LANGFUSE_S3_EVENT_UPLOAD_ENDPOINT: http://lf-mn-db:9000
+  LANGFUSE_S3_EVENT_UPLOAD_FORCE_PATH_STYLE: "true"
+  LANGFUSE_S3_EVENT_UPLOAD_PREFIX: "events/"
+  LANGFUSE_S3_MEDIA_UPLOAD_BUCKET: "langfuse"
+  LANGFUSE_S3_MEDIA_UPLOAD_REGION: "auto"
+  LANGFUSE_S3_MEDIA_UPLOAD_ENDPOINT: http://lf-mn-db:9000
+  LANGFUSE_S3_MEDIA_UPLOAD_FORCE_PATH_STYLE: "true"
+  LANGFUSE_S3_MEDIA_UPLOAD_PREFIX: "media/"
+  LANGFUSE_S3_BATCH_EXPORT_ENABLED: "false"
+  LANGFUSE_S3_BATCH_EXPORT_BUCKET: "langfuse"
+  LANGFUSE_S3_BATCH_EXPORT_PREFIX: "exports/"
+  LANGFUSE_S3_BATCH_EXPORT_REGION: "auto"
+  LANGFUSE_S3_BATCH_EXPORT_ENDPOINT: http://lf-mn-db:9000
+  LANGFUSE_S3_BATCH_EXPORT_EXTERNAL_ENDPOINT: http://lf-mn-db:9000
+  LANGFUSE_S3_BATCH_EXPORT_FORCE_PATH_STYLE: "true"
+  REDIS_HOST: lf-rd-db
+  REDIS_PORT: "6379"
+  AWS_ACCESS_KEY_ID: qqwweeeeertyop
+  AWS_SECRET_ACCESS_KEY: qqwweeeeertyop
+
+---
+
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: lf-web
+data:
+  NEXTAUTH_URL: https://langfuse-rutu-sh.com
+  LANGFUSE_PUBLIC_URL: https://langfuse-rutu-sh.com
+  LANGFUSE_INIT_ORG_ID: "rag-users"
+  LANGFUSE_INIT_ORG_NAME: "rag-users"
+  LANGFUSE_INIT_PROJECT_ID: "rag-users-proj"
+  LANGFUSE_INIT_PROJECT_NAME: "rag-users-proj"
+  LANGFUSE_INIT_USER_EMAIL: "rag-user@email.com"
+
+
+

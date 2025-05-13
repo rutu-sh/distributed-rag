@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatbot-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: chatbot-frontend
+  template:
+    metadata:
+      labels:
+        app: chatbot-frontend
+    spec:
+      containers:
+      - name: chatbot-frontend
+        image: yangboxin/chatbot-frontend:test11
+        ports:
+        - containerPort: 3000
+        envFrom:
+          - configMapRef: 
+              name: chatbot-frontend-common
+        env:
+          - name: NEXTAUTH_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: nextauth-secret
+                key: nextauth-secret
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: chatbot-pg-db
+                key: db-user
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: chatbot-pg-db
+                key: db-password  
+          - name: MINIO_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                key: access-key
+                name: webui-minio
+          - name: MINIO_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                key: secret-key
+                name: webui-minio
+          - name: MINIO_BUCKET_NAME
+            valueFrom:
+              secretKeyRef:
+                key: bucket-name
+                name: webui-minio             
+        resources:
+          requests:
+            cpu: "2"
+            memory: 2Gi
+          limits:
+            cpu: "2"
+            memory: 2Gi

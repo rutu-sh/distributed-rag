@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: milvus-lite-db
+spec:
+  serviceName: "milvus-lite-db"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: milvus-lite-db
+  template:
+    metadata:
+      labels:
+        app: milvus-lite-db
+    spec:
+      containers:
+        - name: milvus-lite
+          image: rutush10/milvus-lite:v0.0.5
+          envFrom:
+          - configMapRef:
+              name: milvus-lite
+          resources:
+            requests:
+              cpu: "4"
+              memory: 10Gi
+            limits:
+              cpu: "4"
+              memory: 10Gi
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: milvus-lite-db-data
+              mountPath: /data/milvus
+      volumes:
+        - name: milvus-lite-db-data
+          persistentVolumeClaim:
+            claimName: milvus-lite-pvc

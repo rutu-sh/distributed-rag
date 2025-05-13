@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: lf-rd-db
+spec:
+  serviceName: lf-rd-db
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lf-rd-db
+  template:
+    metadata:
+      labels:
+        app: lf-rd-db
+    spec:
+      containers:
+        - name: redis
+          image: redis:7
+          command:
+          - redis-server
+          args:
+          - --requirepass
+          - $(REDIS_PASSWORD)
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: lf-rd-db
+                  key: db-password
+          resources:
+            requests:
+              cpu: "2"
+              memory: 8Gi
+            limits:
+              cpu: "2"
+              memory: 8Gi
+          ports:
+            - containerPort: 6379
+
